@@ -1,71 +1,89 @@
 from tkinter import *
 import random
 
-todosNomes = []
+nomes = []
 sorteados = []
 
-janela = Tk()
-janela.geometry("300x550")
-janela.title("SORTEIO")
-
+root = Tk()
+root.geometry("300x500")
+root.title("SORTEIO")
+root.resizable(False, False)
 
 def addTodosNomes():
-    arquivo = open('alunos.txt', 'r')
+    arquivo = open('nomes.txt', 'r')
     for linha in arquivo:
-        todosNomes.append(linha.strip())
+        nomes.append(linha.strip())
     arquivo.close()
 
+def pergarTipo():
+    getTp = tipo.get()
+    if getTp == 1:
+        getTp = "vs"
+    elif getTp == 2:
+        getTp = "com"
+    else:
+        getTp = "?"
+    return getTp
 
 def sorteio():
 
     addTodosNomes()
+    tp = pergarTipo()
+
     #----------RESET NO CAMPO "SORTEADOS"
-    global campo
-    campo.destroy
-    campo = LabelFrame(janela, text="sorteio", width=250, height=380, bg="grey")
-    campo.place(x=10, y=70)
+    global result
+    result.destroy()
+    result = Frame(campo, width=250, height=380)
+    result.pack()
     #----------
-    
-    tp = StringVar()
-    tp.set(tipo.get())
-    
-    for i in range(len(todosNomes)):
+
+    for i in range(len(nomes)):
         
-        num = random.randint(0, len(todosNomes) - 1)
+        num = random.randint(0, len(nomes) - 1)
         
-        if len(todosNomes)>1 or num<len(todosNomes):
-            sorteados.append(todosNomes[num])
-            todosNomes.pop(num)
+        if len(nomes)>1 or num<len(nomes):
+            sorteados.append(nomes[num])
+            nomes.pop(num)
             
-        if len(todosNomes) == 0:
+        if len(nomes) == 0:
             for k in range(len(sorteados)):
-                textoSorteado = StringVar()
+                nomesSorteado = StringVar()
                 if k % 2 == 0:
-                    textoSorteado.set(sorteados[k])
+                    nomesSorteado.set(sorteados[k])
                     
-                    mostrar = Label(campo, textvariable=textoSorteado, bg="grey", fg="yellow")
-                    mostrar.place(x=10, y=35 * k)
+                    mostrar = Label(result, textvariable=nomesSorteado)
+                    mostrar.place(x=5, y=35 * k)
                 
-                    com = Label(campo, textvariable=tp, bg="grey")
-                    com.place(x=70, y=(35 * k) + 20)
+                    tipoSorteio = Label(result, text=tp, padx=20)
+                    tipoSorteio.place(x=90, y=(35 * k) + 20)
                    
                 elif k % 2 == 1:
-                    textoSorteado.set(sorteados[k])
-                    mostrar = Label(campo, textvariable=textoSorteado, bg="grey", fg="yellow")
-                    mostrar.place(x=140, y=35 * k)
+                    nomesSorteado.set(sorteados[k])
+                    
+                    mostrar = Label(result, textvariable=nomesSorteado)
+                    mostrar.place(x=190, y=35 * k)
 
-                    barra = Label(campo, text="-"*47, bg="grey")
+                    barra = Label(result, text="-"*48)
                     barra.place(x=0, y=35*k + 20)
+
     sorteados.clear()
 
-texTipo = Label(janela, text="Tipo de Torneio: ").place(x=10, y=40)
+tipo = IntVar()
 
-tipo = Entry(janela)
-tipo.place(x=70, y=40)
+texTipo = Label(root, text="Tipo de Torneio: ").place(x=10, y=10)
 
-botao_navegador1 = Button(janela, text="SORTEAR", command=lambda:sorteio()).place(x=30, y=10)
+tipo1 = Radiobutton(root, text="vs" , value=1, variable=tipo)
+tipo1.place(x=110, y=10)
 
-campo = LabelFrame(janela, text="sorteio", width=250, height=380, bg="grey")
-campo.place(x=10, y=70)
+tipo2 = Radiobutton(root, text="com", value=2, variable=tipo)
+tipo2.place(x=180, y=10)
 
-janela.mainloop()
+botao = Button(root, text="SORTEAR", command=lambda:sorteio()).place(x=120, y=40)
+
+campo = LabelFrame(root, text="sorteio", bg="grey")
+campo.place(x=10, y=70, width=286, height=400)
+
+result = Frame(campo, width=250, height=380)
+result.pack()
+
+root.mainloop()
