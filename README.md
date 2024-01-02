@@ -9,9 +9,8 @@ Realizar sorteios aleatórios e exibir os resultados.
 
 
 ## Pré-requisitos
-Python 3.x
-
-Tkinter (normalmente incluído nas instalações do Python)
+* Python 3.x
+* Tkinter (normalmente incluído nas instalações do Python)
 
 ## Intalação 
 * pip install tk
