@@ -43,7 +43,7 @@ def sorteio(event=None):  # Adicionamos um parâmetro de evento para o comando d
     canvas.configure(yscrollcommand=scrollbar.set)
     canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
     
-    # Adicionamos os eventos de rolagem do mouse
+    # Eventos de rolagem do mouse
     canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1 * (event.delta / 120)), "units"))
     canvas.bind_all("<Button-4>", lambda event: canvas.yview_scroll(-1, "units"))
     canvas.bind_all("<Button-5>", lambda event: canvas.yview_scroll(1, "units"))
