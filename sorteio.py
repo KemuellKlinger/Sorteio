@@ -1,10 +1,10 @@
 from tkinter import *
 import random
 
-fontePadrao = "Small Fonts"
-fonteNegrito = fontePadrao, 10, "bold"
 class sorteio:
-    def __init__(self):       
+    def __init__(self):   
+        self.fontePadrao = "Small Fonts"
+        self.fonteNegrito = self.fontePadrao, 10, "bold"    
         self.nomes = []
         self.sorteados = []
 
@@ -16,14 +16,14 @@ class sorteio:
         self.root.title("SORTEIO")
         self.root.resizable(False, False)
 
-        self.texTipo = Label(self.root, text="Informe a quantidade", font=fonteNegrito).place(x=8, y=10)
+        self.texTipo = Label(self.root, text="Informe a quantidade", font=self.fonteNegrito).place(x=8, y=10)
 
-        self.entrada = Entry(self.root, font=fonteNegrito)
+        self.entrada = Entry(self.root, font=self.fonteNegrito)
         self.entrada.place(x=150, y=10, width=70)
 
-        self.botao = Button(self.root, text="SORTEAR", command=lambda:self.sorteio(), font=fonteNegrito).place(x=120, y=40)
+        self.botao = Button(self.root, text="SORTEAR", command=lambda:self.sorteio(), font=self.fonteNegrito).place(x=120, y=40)
 
-        self.campo = LabelFrame(self.root, text="sorteio", bg="grey", font=fonteNegrito)
+        self.campo = LabelFrame(self.root, text="sorteio", bg="grey", font=self.fonteNegrito)
         self.campo.place(x=10, y=70, width=286, height=400)
 
         self.result = Frame(self.campo, width=250, height=380)
@@ -78,13 +78,13 @@ class sorteio:
                 
             if len(self.nomes) == 0:
                 if quant > len(self.sorteados):
-                    self.mostrar = Label(frame, text="informe uma quantidade valida", font=(fontePadrao, 15), wraplength=245)
+                    self.mostrar = Label(frame, text="informe uma quantidade valida", font=(self.fontePadrao, 15), wraplength=245)
                     self.mostrar.pack()
                 else:
                     for k in range(0, quant):
                         nomesSorteado = StringVar()
                         nomesSorteado.set(self.sorteados[k])
-                        self.mostrar = Label(frame, textvariable=nomesSorteado, font=(fontePadrao, 15), wraplength=150)
+                        self.mostrar = Label(frame, textvariable=nomesSorteado, font=(self.fontePadrao, 15), wraplength=150)
                         self.mostrar.pack()
                         
                 
