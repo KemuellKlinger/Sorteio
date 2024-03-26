@@ -1,102 +1,95 @@
 from tkinter import *
 import random
 
-nomes = []
-sorteados = []
-
-
 fontePadrao = "Small Fonts"
 fonteNegrito = fontePadrao, 10, "bold"
+class sorteio:
+    def __init__(self):       
+        self.nomes = []
+        self.sorteados = []
 
-root = Tk()
-root.geometry("300x500")
-root.title("SORTEIO")
-root.resizable(False, False)
-
-def addTodosNomes():
-    arquivo = open('nomes.txt', 'r')
-    for linha in arquivo:
-        nomes.append(linha.strip())
-    arquivo.close()
-
-def pergarTipo():
-    getTp = tipo.get()
-    if getTp == 1:
-        getTp = "vs"
-    elif getTp == 2:
-        getTp = "com"
-    else:
-        getTp = "?"
-    return getTp
-
-def sorteio(event=None):  # Adicionamos um parâmetro de evento para o comando do botão e configuração do evento de rolagem do mouse
-    addTodosNomes()
-    tp = pergarTipo()
-
-    global result
-    result.destroy()
-    result = Frame(campo, width=250, height=380)
-    result.pack()
-
-    canvas = Canvas(result, width=250, height=380 , bg="grey")
-    canvas.pack(side="top", fill="both", expand=True)
-
-    scrollbar = Scrollbar(result, command=canvas.yview)
-    scrollbar.pack(side="right", fill="y")
-
-    canvas.configure(yscrollcommand=scrollbar.set)
-    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-    
-    # Eventos de rolagem do mouse
-    canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1 * (event.delta / 120)), "units"))
-    canvas.bind_all("<Button-4>", lambda event: canvas.yview_scroll(-1, "units"))
-    canvas.bind_all("<Button-5>", lambda event: canvas.yview_scroll(1, "units"))
-
-    frame = Frame(canvas)
-    canvas.create_window((0, 0), window=frame, anchor="nw")
-
-    for i in range(len(nomes)):
-        num = random.randint(0, len(nomes) - 1)
+        self.criarJanela()
         
-        if len(nomes)>1 or num<len(nomes):
-            sorteados.append(nomes[num])
-            nomes.pop(num)
+    def criarJanela(self):
+        self.root = Tk()
+        self.root.geometry("300x500")
+        self.root.title("SORTEIO")
+        self.root.resizable(False, False)
+
+        self.texTipo = Label(self.root, text="Informe a quantidade", font=fonteNegrito).place(x=8, y=10)
+
+        self.entrada = Entry(self.root, font=fonteNegrito)
+        self.entrada.place(x=150, y=10, width=70)
+
+        self.botao = Button(self.root, text="SORTEAR", command=lambda:self.sorteio(), font=fonteNegrito).place(x=120, y=40)
+
+        self.campo = LabelFrame(self.root, text="sorteio", bg="grey", font=fonteNegrito)
+        self.campo.place(x=10, y=70, width=286, height=400)
+
+        self.result = Frame(self.campo, width=250, height=380)
+        self.result.pack()
+        self.root.mainloop()
+        
+    def addTodosNomes(self):
+        self.arquivo = open('nomes.txt', 'r')
+        for linha in self.arquivo:
+            self.nomes.append(linha.strip())
+        self.arquivo.close()
+
+    def quantidade(self):
+        if self.entrada.get():
+            getQuant = IntVar 
+            getQuant = self.entrada.get()
+            return getQuant
+        else:
+            return 0
+
+    def sorteio(self, event=None):  # Adicionamos um parâmetro de evento para o comando do botão e configuração do evento de rolagem do mouse
+        self.addTodosNomes()
+        quant = int(self.quantidade())
+
+        self.result.destroy()
+        self.result = Frame(self.campo, width=245, height=380)
+        self.result.pack()
+
+        canvas = Canvas(self.result, width=245, height=380)
+        canvas.pack()
+
+        scrollbar = Scrollbar(self.result, command=canvas.yview)
+        scrollbar.pack(side="right", fill="y")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        
+        # Eventos de rolagem do mouse
+        canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1 * (event.delta / 120)), "units"))
+        canvas.bind_all("<Button-4>", lambda event: canvas.yview_scroll(-1, "units"))
+        canvas.bind_all("<Button-5>", lambda event: canvas.yview_scroll(1, "units"))
+
+        frame = Frame(canvas)
+        canvas.create_window((0, 0), window=frame, anchor="center")
+
+        for i in range(len(self.nomes)):
+            num = random.randint(0, len(self.nomes) - 1)
             
-        if len(nomes) == 0:
-            for k in range(len(sorteados)):
-                nomesSorteado = StringVar()
-                if k % 2 == 0:
-                    nomesSorteado.set(sorteados[k])
-                    
-                    mostrar1 = Label(frame, textvariable=nomesSorteado, font=(fontePadrao, 15)).pack()
-                              
-                    tipoSorteio = Label(frame, text=tp, padx=20, font=fonteNegrito).pack()
-                    
-                elif k % 2 == 1:
-                    nomesSorteado.set(sorteados[k])
-                    
-                    mostrar2 = Label(frame, textvariable=nomesSorteado, font=(fontePadrao, 15)).pack()
+            if len(self.nomes)>1 or num<len(self.nomes):
+                self.sorteados.append(self.nomes[num])
+                self.nomes.pop(num)
                 
-                    barra = Label(frame, text="-" * 50).pack()
-            
-    sorteados.clear()
+            if len(self.nomes) == 0:
+                if quant > len(self.sorteados):
+                    self.mostrar = Label(frame, text="informe uma quantidade valida", font=(fontePadrao, 15), wraplength=245)
+                    self.mostrar.pack()
+                else:
+                    for k in range(0, quant):
+                        nomesSorteado = StringVar()
+                        nomesSorteado.set(self.sorteados[k])
+                        self.mostrar = Label(frame, textvariable=nomesSorteado, font=(fontePadrao, 15), wraplength=150)
+                        self.mostrar.pack()
+                        
+                
+                               
+        self.sorteados.clear()
 
-tipo = IntVar()
-
-texTipo = Label(root, text="Tipo de Torneio: ", font=fonteNegrito).place(x=8, y=10)
-
-tipo1 = Radiobutton(root, text="vs" , value=1, variable=tipo, font=fonteNegrito)
-tipo1.place(x=120, y=10)
-
-tipo2 = Radiobutton(root, text="com", value=2, variable=tipo, font=fonteNegrito)
-tipo2.place(x=180, y=10)
-
-botao = Button(root, text="SORTEAR", command=lambda:sorteio(), font=fonteNegrito).place(x=120, y=40)
-
-campo = LabelFrame(root, text="sorteio", bg="grey", font=fonteNegrito)
-campo.place(x=10, y=70, width=286, height=400)
-
-result = Frame(campo, width=250, height=380)
-result.pack()
-
-root.mainloop()
+if __name__ == "__main__":
+    app = sorteio()
