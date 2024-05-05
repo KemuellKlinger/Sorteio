@@ -1,10 +1,10 @@
 # Aplicativo de Sorteio Aleatório com Tkinter
 ## Visão Geral
-Este é um aplicativo simples em Python construído com Tkinter para realizar sorteios aleatórios. O aplicativo permite carregar uma lista de nomes de um arquivo e realizar sorteios aleatórios com base em diferentes tipos de torneios (vs ou com).
+Este é um aplicativo simples em Python construído com Tkinter para realizar sorteios aleatórios. O aplicativo permite carregar uma lista de nomes de um arquivo e realizar sorteios aleatórios. O mesmo permite adicionar nomes e os salva em um arquivo de texto.
 
 ## Recursos
 Carregar nomes de um arquivo (nomes.txt).
-Escolher o tipo de torneio (vs ou com).
+Mostrar todos o nomes que foram adicinados em "nomes.txt"
 Realizar sorteios aleatórios e exibir os resultados.
 
 
