@@ -138,26 +138,22 @@ class Sorteio:
             self.treeview.insert("", "end", values=(nome,))
 
     def removerNome(self, event):
-        # Obter o item selecionado na tabela
         item_selecionado = self.treeviewAdd.selection()
         
         if item_selecionado:
-            # Obter o nome do item selecionado
+        
             nome_selecionado = self.treeviewAdd.item(item_selecionado, "values")[0]
-            # Mostrar popup de confirmação
+        
             confirmar = messagebox.askyesno("Confirmar Exclusão", f"Tem certeza que deseja excluir '{nome_selecionado}'?")
             if confirmar:
-                print("Antes: ", self.nomes)
                 self.nomes.remove(nome_selecionado)
                 self.treeviewAdd.delete(item_selecionado)
                 self.atualizarArquivo()
-                
                 
     def atualizarArquivo(self):
         with open('nomes.txt', 'w') as arquivo:
             for nome in self.nomes:
                 arquivo.write(nome + "\n")
-        print(nome)
 
 if __name__ == "__main__":
     app = Sorteio()
