@@ -18,11 +18,15 @@ class Sorteio:
         self.root.title("SORTEIO")
         self.root.resizable(False, False)
 
-        self.botaoAdicionar = Button(self.root, text="Adicionar Nomes", command=lambda:self.telaAdicionarNomes(),font=self.fonteNegrito)
-        self.botaoAdicionar.pack(pady=5)
+        self.root.columnconfigure(2, weight=1)
+        botoes = Frame(self.root, width=310)
+        botoes.grid(column=2, row=1)
+
+        self.botaoAdicionar = Button(botoes, text="Adicionar Nomes", command=lambda:self.telaAdicionarNomes(),font=self.fonteNegrito)
+        self.botaoAdicionar.pack(side=LEFT ,padx=5, pady=5)
         
-        self.botaoMostrarTodos = Button(self.root, text="Exibir nomes", command=lambda:self.mostrarTodos(), font=self.fonteNegrito)
-        self.botaoMostrarTodos.pack()
+        self.botaoMostrarTodos = Button(botoes, text="Exibir nomes", command=lambda:self.mostrarTodos(), font=self.fonteNegrito)
+        self.botaoMostrarTodos.pack(side=LEFT, padx=5, pady=5)
 
         self.quantidade = Label(self.root, text="Quantidade: ", font=self.fonteNegrito)
         self.quantidade.place(x=8, y=65)
